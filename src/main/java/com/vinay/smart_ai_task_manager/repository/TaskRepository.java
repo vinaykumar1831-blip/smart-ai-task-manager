@@ -12,4 +12,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByPriority(String priority);
 
     List<Task> findByOrderByCreatedAtDesc();
+
+    List<Task> findByTitleContainingIgnoreCase(String keyword);
 }

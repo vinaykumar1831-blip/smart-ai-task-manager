@@ -1,5 +1,10 @@
 package com.vinay.smart_ai_task_manager.service;
 
+import org.springframework.data.domain.Sort;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.vinay.smart_ai_task_manager.entity.Task;
 import java.util.List;
 
@@ -20,4 +25,12 @@ public interface TaskService {
     List<Task> getTasksByPriority(String priority);
 
     List<Task> getLatestTasks();
+
+    Page<Task> getAllTasks(Pageable pageable);
+
+    List<Task> getAllTasksSorted(String field);
+
+    Page<Task> getAllTasks(Pageable pageable, String sortBy);
+
+    List<Task> searchTasks(String keyword);
 }

@@ -1,5 +1,10 @@
 package com.vinay.smart_ai_task_manager.controller;
 
+import org.springframework.data.domain.PageRequest;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.vinay.smart_ai_task_manager.entity.Task;
 import com.vinay.smart_ai_task_manager.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,13 +30,38 @@ public class TaskController {
     public List<Task> getAllTasks() {
         return taskService.getAllTask();
     }
+    @Operation(summary = "Search tasks by title")
+@GetMapping("/search")
+public List<Task> searchTasks(@RequestParam String keyword) {
+    return taskService.searchTasks(keyword);
+}
+    @Operation(summary = "Get paginated and sorted tasks")
+@GetMapping("/page-sort")
+public Page<Task> getTasksWithPaginationAndSorting(
+        @RequestParam int page,
+        @RequestParam int size,
+        @RequestParam String sortBy) {
+
+    Pageable pageable = PageRequest.of(page, size);
+
+    return taskService.getAllTasks(pageable, sortBy);
+}
+    @Operation(summary = "Get paginated tasks")
+@GetMapping("/page")
+public Page<Task> getAllTasks(Pageable pageable) {
+    return taskService.getAllTasks(pageable);
+}
 
     @Operation(summary = "Get tasks by status")
     @GetMapping("/status/{status}")
     public List<Task> getTasksByStatus(@PathVariable String status) {
         return taskService.getTasksByStatus(status);
     }
-
+    @Operation(summary = "Get tasks sorted by field")
+@GetMapping("/sort/{field}")
+public List<Task> getAllTasksSorted(@PathVariable String field) {
+    return taskService.getAllTasksSorted(field);
+}
     @Operation(summary = "Get tasks by priority")
     @GetMapping("/priority/{priority}")
     public List<Task> getTasksByPriority(@PathVariable String priority) {
