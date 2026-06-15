@@ -1,7 +1,6 @@
 package com.vinay.smart_ai_task_manager.service;
 
-import org.springframework.data.domain.Sort;
-
+import com.vinay.smart_ai_task_manager.dto.TaskStatsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,4 +32,6 @@ public interface TaskService {
     Page<Task> getAllTasks(Pageable pageable, String sortBy);
 
     List<Task> searchTasks(String keyword);
+
+    TaskStatsDTO getTaskStats();
 }

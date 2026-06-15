@@ -1,5 +1,7 @@
 package com.vinay.smart_ai_task_manager.service;
 
+import com.vinay.smart_ai_task_manager.dto.TaskStatsDTO;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
@@ -26,6 +28,23 @@ public class TaskServiceImpl implements TaskService {
     public Task createTask(Task task) {
         return taskRepository.save(task);
     }
+    @Override
+public TaskStatsDTO getTaskStats() {
+
+    long totalTasks = taskRepository.count();
+
+    long completedTasks =
+            taskRepository.countByStatus("COMPLETED");
+
+    long pendingTasks =
+            taskRepository.countByStatus("PENDING");
+
+    return new TaskStatsDTO(
+            totalTasks,
+            completedTasks,
+            pendingTasks
+    );
+}
     @Override
 public List<Task> searchTasks(String keyword) {
     return taskRepository.findByTitleContainingIgnoreCase(keyword);

@@ -1,5 +1,7 @@
 package com.vinay.smart_ai_task_manager.controller;
 
+import com.vinay.smart_ai_task_manager.dto.TaskStatsDTO;
+
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Page;
@@ -45,6 +47,11 @@ public Page<Task> getTasksWithPaginationAndSorting(
     Pageable pageable = PageRequest.of(page, size);
 
     return taskService.getAllTasks(pageable, sortBy);
+}
+@Operation(summary = "Get task statistics")
+@GetMapping("/stats")
+public TaskStatsDTO getTaskStats() {
+    return taskService.getTaskStats();
 }
     @Operation(summary = "Get paginated tasks")
 @GetMapping("/page")
