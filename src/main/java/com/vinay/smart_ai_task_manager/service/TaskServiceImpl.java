@@ -39,6 +39,10 @@ public void deleteTask(Long id) {
 public List<Task> getTasksByStatus(String status) {
     return taskRepository.findByStatus(status);
 }
+@Override
+public List<Task> getLatestTasks() {
+    return taskRepository.findByOrderByCreatedAtDesc();
+}
 
 @Override
 public List<Task> getTasksByPriority(String priority) {

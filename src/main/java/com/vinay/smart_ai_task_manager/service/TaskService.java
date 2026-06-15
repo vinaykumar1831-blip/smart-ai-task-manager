@@ -18,4 +18,6 @@ public interface TaskService {
     List<Task> getTasksByStatus(String status);
 
     List<Task> getTasksByPriority(String priority);
+
+    List<Task> getLatestTasks();
 }
