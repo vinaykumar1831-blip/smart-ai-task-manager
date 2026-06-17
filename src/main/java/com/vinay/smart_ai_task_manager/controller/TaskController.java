@@ -1,5 +1,8 @@
 package com.vinay.smart_ai_task_manager.controller;
 
+import com.vinay.smart_ai_task_manager.dto.AiRequestDTO;
+import com.vinay.smart_ai_task_manager.dto.AiResponseDTO;
+import com.vinay.smart_ai_task_manager.service.AiService;
 import com.vinay.smart_ai_task_manager.dto.TaskStatsDTO;
 
 import org.springframework.data.domain.PageRequest;
@@ -22,9 +25,11 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final AiService aiService;
 
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
+    public TaskController(TaskService taskService, AiService aiService) {
+    this.taskService = taskService;
+    this.aiService = aiService;
     }
 
     @Operation(summary = "Get all tasks")
@@ -104,5 +109,17 @@ public List<Task> getAllTasksSorted(@PathVariable String field) {
 @GetMapping("/latest")
 public List<Task> getLatestTasks() {
     return taskService.getLatestTasks();
+    
+}
+@Operation(summary = "Analyze task using local AI")
+@PostMapping("/ai-analyze")
+public AiResponseDTO analyzeTask(@RequestBody AiRequestDTO request) {
+
+    String suggestion = aiService.analyzeTask(
+            request.getTitle(),
+            request.getDescription()
+    );
+
+    return new AiResponseDTO(suggestion);
 }
 }
